@@ -1,7 +1,5 @@
-runtime: python27
-api_version: 1
-threadsafe: yes
-
+runtime: python39
+entrypoint: gunicorn -k uvicorn.workers.UvicornWorker -b :$PORT main:app --timeout 180000 --workers 1 --threads 1
 default_expiration: "300d 5h"
 
 handlers:
@@ -10,20 +8,6 @@ handlers:
   static_dir: static
   http_headers:
     Vary: Accept-Encoding
-#
-#- url: /favicon.ico
-#  static_files: static/favicon.ico
-#  upload: static/favicon.ico
-#- url: /apple-touch-icon.png
-#  static_files: static/apple-touch-icon.png
-#  upload: static/apple-touch-icon.png
-#- url: /BingSiteAuth.xml
-#  static_files: static/BingSiteAuth.xml
-#  upload: static/BingSiteAuth.xml
-#- url: /channel.html
-#  static_files: static/channel.html
-#  upload: static/channel.html
-#
 - url: /robots.txt
   static_files: static/robots.txt
   upload: static/robots.txt
@@ -33,12 +17,6 @@ handlers:
 
 - url: .*
   script: main.app
-
-libraries:
-- name: webapp2
-  version: "2.5.2"
-- name: jinja2
-  version: "2.6"
 
 instance_class: F1
 automatic_scaling:
